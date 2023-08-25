@@ -51,7 +51,8 @@ module.exports = {
         ephemeral: true
 });
 
-const boutons = new ActionRowBuilder(
+const boutons = new ActionRowBuilder()
+.addComponents(
     new ButtonBuilder()
     .setCustomId("ajouter")
     .setLabel(`Ajouter ${quantité} à ${statistique}`)
@@ -70,7 +71,6 @@ const boutons = new ActionRowBuilder(
 );
 const réponse = await interaction.reply({
     content: `Quelle type d'opération voulez-vous réaliser ?`,
-    ephemeral: true,
     components: [boutons],
 });
 
@@ -83,7 +83,7 @@ try {
     });
 
     if (confirmation.customID === "annuler") {
-        interaction.reply({
+        confirmation.update({
             content: `Vous avez annuler la commande !`,
             components: [],
         });
