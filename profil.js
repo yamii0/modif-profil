@@ -61,22 +61,22 @@ module.exports = {
           {
             name: "**Force :**",
             value: `\`${data.statistiques.force}\``,
-            inline: true
+            inline: true,
           },
           {
             name: "**Intelligence :**",
             value: `\`${data.statistiques.intelligence}\``,
-            inline: true
+            inline: true,
           },
           {
             name: "**Vitesse :**",
             value: `\`${data.statistiques.vitesse}\``,
-            inline: true
+            inline: true,
           },
           {
             name: "**Points à répartir :**",
             value: `\`${data.statistiques.points}\``,
-            inline: true
+            inline: true,
           }
         )
         .setColor("Aqua");
@@ -85,27 +85,26 @@ module.exports = {
         embeds: [embedProfil],
         components: [boutonProfil],
       });
-
       const filtre = (i) => i.user.id === interaction.user.id;
 
-      const confirmation = await réponse.awaitMessageComponent({
+      const confirmation = réponse.createMessageComponentCollector({
         filter: filtre,
         time: 60000,
       });
 
-      if (confirmation.customId === "stats") {
-        confirmation.update({
-          embeds: [embedStats],
-          components: [boutonStats],
-        });
-      }
-
-      if (confirmation.customId === "profil") {
-        interaction.editReply({
-          embeds: [embedProfil],
-          components: [boutonProfil],
-        });
-      }
+      confirmation.on("collector", async (i) => {
+        if (i.customId === "stats") {
+          interaction.editReply({
+            embeds: [embedStats],
+            components: [boutonStats],
+          })
+        } else if (i.customId === "profil") {
+          interaction.editReply({
+            embeds: [embedProfil],
+            components: [boutonProfil],
+          })
+        } else return;
+      });
     });
   },
 };
