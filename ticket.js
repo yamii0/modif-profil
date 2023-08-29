@@ -87,7 +87,7 @@ module.exports = {
       const closeTicket = await newChannel.send({content: `Fermer le ticket`, components: [boutonClose]})
   
       if (closeTicket.CustomId === "ticket-close") {
-        interaction.guild.channels.delete((channel) => channel.id === `${data.ticket}`);
+        interaction.guild.channels.delete(channel => channel.id === `${data.ticket}`);
       
       }
 
